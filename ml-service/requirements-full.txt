@@ -1,0 +1,11 @@
+fastapi==0.95.2
+uvicorn[standard]==0.22.0
+requests==2.31.0
+pydantic==1.10.11
+
+# Real model dependencies
+ultralytics==8.0.212  # pin may vary; install latest if needed
+torch  # will install CPU or GPU build depending on pip & platform; see PyTorch install instructions
+opencv-python-headless
+numpy
+Pillow
