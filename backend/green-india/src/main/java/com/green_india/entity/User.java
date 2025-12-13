@@ -24,6 +24,14 @@ public class User {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    private int totalPoints;
+
+    private int ecoLevel;
+
+    @Enumerated(EnumType.STRING)
+    private EcoBadge badge;
+
+
     // getters / setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
@@ -36,4 +44,17 @@ public class User {
     public String getPrefs() { return prefs; }
     public void setPrefs(String prefs) { this.prefs = prefs; }
     public LocalDateTime getCreatedAt() { return createdAt; }
+
+    public int getTotalPoints() {return totalPoints; }
+    public void setTotalPoints(int totalPoints){ this.totalPoints = totalPoints; }
+
+    public int getEcoLevel(){return ecoLevel; }
+    public void setEcoLevel(int ecoLevel){ this.ecoLevel = ecoLevel; }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public EcoBadge getBadge() { return badge;}
+    public void setBadge(EcoBadge badge) { this.badge = badge;}
 }
