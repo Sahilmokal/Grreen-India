@@ -5,7 +5,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Results from './pages/Results';
-
+import About from './pages/About';
+import Login from './pages/login';
+import Register from './pages/Register';
+import HowItWorks from './pages/HowItWorks';
+import Impact from './pages/Impact';
+import FAQ from './pages/FAQ';
 function App() {
   return (
     <Router>
@@ -14,6 +19,15 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/results" element={<Results />} />
+          <Route path="/about" element={<About/>} />
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/register" element={<Register/>}/>
+          <Route path="/how-it-works" element={<HowItWorks/>}/>
+          <Route path="/impact" element={<Impact/>}/>
+          <Route path="/register" element={<Register/>}/>
+          <Route path="/faq" element={<FAQ/>}/>
+          <Route path="/how-it-works" element={<HowItWorks/>}/>
+
         </Routes>
         <ToastContainer
           position="top-right"
