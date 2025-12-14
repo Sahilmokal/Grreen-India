@@ -8,6 +8,7 @@ import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime; // <-- ADD THIS IMPORT
 
 @Service
 public class EcoPointsService {
@@ -22,10 +23,13 @@ public class EcoPointsService {
         boolean alreadyRewarded = transcationRepository.existsByUserIdAndChallengeIdAndDate(userId, challenge.getId(), LocalDateTime.now());
         if(alreadyRewarded) return;
 
+
         User user = userRepository.findById(userId).orElseThrow(() ->  new RuntimeException("User not found"));
+
 
         int points = challenge.getPointsReward();
 
+        // ... (Rest of the logic remains the same) ...
         user.setTotalPoints(user.getTotalPoints() + points);
         user.setBadge(EcoBadge.fromPoints(user.getTotalPoints()));
 
