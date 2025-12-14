@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import FileUpload from '../components/FileUpload';
-import Loader from '../components/Loader';
-import { uploadPhoto } from '../api';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import FileUpload from "../components/FileUpload";
+import Loader from "../components/Loader";
+import { uploadPhoto } from "../api";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -16,7 +16,7 @@ const Home = () => {
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      toast.error('Please select an image first!');
+      toast.error("Please select an image first!");
       return;
     }
 
@@ -24,24 +24,26 @@ const Home = () => {
 
     try {
       const formData = new FormData();
-      formData.append('file', selectedFile);
-      formData.append('userId', '1'); // Using userId 1 as specified
+      formData.append("file", selectedFile);
+      formData.append("userId", "1"); // backend safe
 
       const response = await uploadPhoto(formData);
-      
-      toast.success('Image uploaded successfully!');
-      
-      // Navigate to results page with the response data
-      navigate('/results', { state: { data: response } });
+
+      toast.success("AI analysis completed successfully 🌱");
+      navigate("/results", { state: { data: response } });
     } catch (error) {
-      console.error('Upload error:', error);
-      
+      console.error("Upload error:", error);
+
       if (error.response) {
-        toast.error(`Upload failed: ${error.response.data.message || 'Server error'}`);
+        toast.error(
+          `Upload failed: ${error.response.data.message || "Server error"}`
+        );
       } else if (error.request) {
-        toast.error('Cannot reach the server. Please ensure the backend is running on http://localhost:8080');
+        toast.error(
+          "Cannot reach the server. Please ensure the backend is running on http://localhost:8080"
+        );
       } else {
-        toast.error('An unexpected error occurred. Please try again.');
+        toast.error("An unexpected error occurred. Please try again.");
       }
     } finally {
       setIsUploading(false);
@@ -49,94 +51,144 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-green-100">
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-            Welcome to <span className="text-primary-600">Green India</span>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-100">
+      <div className="max-w-6xl mx-auto px-4 py-14">
+
+        {/* ================= HERO SECTION ================= */}
+        <div className="text-center mb-20">
+          <span className="inline-block mb-4 px-4 py-1 text-sm font-semibold rounded-full bg-green-100 text-green-700">
+            AI for Sustainable Living
+          </span>
+
+          <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
+            Turn Waste Into{" "}
+            <span className="text-primary-600">Wise Choices</span>
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Upload a photo of waste items or objects to receive personalized eco-friendly suggestions
-            for a more sustainable lifestyle.
+
+          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+            Upload a photo and let our AI identify waste items and suggest
+            eco-friendly alternatives that help reduce pollution and protect
+            the planet.
           </p>
+
+          {/* Hero Feature Cards */}
+          <div className="mt-14 grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {[
+              { title: "Upload Image", icon: "📸" },
+              { title: "AI Detection", icon: "🤖" },
+              { title: "Eco Suggestions", icon: "🌍" },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition text-center"
+              >
+                <div className="text-4xl mb-3">{item.icon}</div>
+                <h4 className="font-semibold">{item.title}</h4>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-xl p-8 md:p-12">
+        {/* ================= MAIN CARD ================= */}
+        <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl p-8 md:p-12 border border-gray-100">
           {!isUploading ? (
             <>
-              <div className="mb-6">
-                <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-                  Upload Your Image
+              {/* Upload Section */}
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold text-gray-800 mb-2">
+                  Upload an Image
                 </h2>
+                <p className="text-gray-500 mb-6">
+                  Upload a photo of waste, plastic items, or everyday objects.
+                  Our AI will analyze it and generate sustainable suggestions.
+                </p>
+
                 <FileUpload
                   onFileSelect={handleFileSelect}
                   selectedFile={selectedFile}
                 />
+
+                <p className="text-sm text-gray-500 mt-3">
+                  Supported formats: JPG, PNG · Max size: 5MB
+                </p>
               </div>
 
+              {/* Action Button */}
               <button
                 onClick={handleUpload}
                 disabled={!selectedFile}
-                className={`w-full py-4 rounded-lg font-semibold text-lg transition-all transform ${
+                className={`w-full py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform ${
                   selectedFile
-                    ? 'bg-primary-600 hover:bg-primary-700 text-white hover:scale-105 shadow-lg hover:shadow-xl'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? "bg-primary-600 hover:bg-primary-700 text-white hover:-translate-y-1 shadow-lg hover:shadow-2xl"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
               >
-                Get Eco Suggestions
+                {selectedFile
+                  ? "Analyze Image with AI 🌱"
+                  : "Select an Image to Continue"}
               </button>
 
-              <div className="mt-8 pt-8 border-t border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-800 mb-3">
-                  How it works:
+              {/* How It Works */}
+              <div className="mt-12 pt-10 border-t border-gray-200">
+                <h3 className="text-xl font-bold text-gray-800 mb-6">
+                  How Green India Works
                 </h3>
-                <div className="space-y-3">
-                  <div className="flex items-start space-x-3">
-                    <div className="flex-shrink-0 w-8 h-8 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center font-bold">
-                      1
+
+                <div className="grid md:grid-cols-4 gap-6">
+                  {[
+                    { step: "1", text: "Upload an image of waste items" },
+                    { step: "2", text: "AI detects and classifies objects" },
+                    { step: "3", text: "Get eco-friendly alternatives" },
+                    { step: "4", text: "Give feedback to improve results" },
+                  ].map((item) => (
+                    <div
+                      key={item.step}
+                      className="p-5 rounded-xl bg-green-50 border hover:shadow-md transition"
+                    >
+                      <div className="w-8 h-8 mb-3 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold">
+                        {item.step}
+                      </div>
+                      <p className="text-gray-700 text-sm">{item.text}</p>
                     </div>
-                    <p className="text-gray-600 pt-1">
-                      Upload an image of waste items, recyclables, or everyday objects
-                    </p>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="flex-shrink-0 w-8 h-8 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center font-bold">
-                      2
-                    </div>
-                    <p className="text-gray-600 pt-1">
-                      Our AI analyzes the image and identifies the objects
-                    </p>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="flex-shrink-0 w-8 h-8 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center font-bold">
-                      3
-                    </div>
-                    <p className="text-gray-600 pt-1">
-                      Receive personalized eco-friendly suggestions and alternatives
-                    </p>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="flex-shrink-0 w-8 h-8 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center font-bold">
-                      4
-                    </div>
-                    <p className="text-gray-600 pt-1">
-                      Provide feedback to help improve our suggestions
-                    </p>
-                  </div>
+                  ))}
                 </div>
               </div>
             </>
           ) : (
-            <div className="py-12">
-              <Loader message="Analyzing your image and generating suggestions..." />
+            <div className="py-16">
+              <Loader message="AI is detecting objects and generating eco-friendly alternatives..." />
             </div>
           )}
         </div>
 
-        <div className="mt-8 text-center text-gray-600 text-sm">
-          <p>
-            🌱 Together, we can make a difference for our environment 🌍
-          </p>
+        {/* ================= IMPACT SECTION ================= */}
+        <div className="mt-20 grid md:grid-cols-3 gap-8">
+          <div className="p-6 rounded-xl bg-green-50 border hover:shadow-lg transition">
+            <h3 className="font-bold text-lg mb-2">🌍 Environmental Impact</h3>
+            <p className="text-gray-600">
+              Reduce landfill waste and carbon footprint through smarter daily
+              choices.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-xl bg-blue-50 border hover:shadow-lg transition">
+            <h3 className="font-bold text-lg mb-2">🤖 AI-Driven Insights</h3>
+            <p className="text-gray-600">
+              Computer vision meets sustainability intelligence.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-xl bg-yellow-50 border hover:shadow-lg transition">
+            <h3 className="font-bold text-lg mb-2">🇮🇳 Local Relevance</h3>
+            <p className="text-gray-600">
+              Designed for Indian lifestyle and consumption habits.
+            </p>
+          </div>
+        </div>
+
+        {/* ================= FOOTER ================= */}
+        <div className="mt-14 text-center text-gray-600 text-sm">
+          🌱 Together, we can build a cleaner and greener India 🌍
         </div>
       </div>
     </div>

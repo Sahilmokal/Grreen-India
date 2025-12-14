@@ -2,7 +2,13 @@
 
 import os
 import traceback
+import cv2
+
+
 from typing import List, Dict
+import cv2
+cv2.imshow = lambda *args, **kwargs: None
+cv2.waitKey = lambda *args, **kwargs: None
 
 USE_REAL = os.environ.get("USE_REAL_MODEL", "false").lower() in ("1", "true", "yes")
 MODEL_PATH = os.environ.get("MODEL_PATH", "yolov8n.pt")
